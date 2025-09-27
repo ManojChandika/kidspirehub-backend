@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: kidspirehub-backend
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kidspirehub
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
+
+aws:
+  s3:
+    bucket: ${AWS_S3_BUCKET:your-bucket-name}
+    accessKey: ${AWS_ACCESS_KEY_ID:your-access-key}
+    secretKey: ${AWS_SECRET_ACCESS_KEY:your-secret-key}
+    region: ${AWS_REGION:us-east-1}
+
+server:
+  port: 8080
+
