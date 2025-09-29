@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.Instant;
 
 @Entity
 @Table(name = "users")
@@ -34,6 +35,19 @@ public class User {
 
     @NotBlank
     private String role;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @Column(name = "last_login_at")
+    private Instant lastLoginAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+    }
 }
 
 

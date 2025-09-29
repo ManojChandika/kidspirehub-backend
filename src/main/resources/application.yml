@@ -1,14 +1,10 @@
 spring:
   application:
     name: kidspirehub-backend
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
   datasource:
-    url: jdbc:postgresql://localhost:5432/kidspirehub
-    username: postgres
-    password: admin
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,7 +14,13 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+        default_schema: ${DB_DEFAULT_SCHEMA:kidspirehub}
     show-sql: true
+
+  sql:
+    init:
+      mode: always
+      platform: postgresql
 
 aws:
   s3:
@@ -29,4 +31,13 @@ aws:
 
 server:
   port: 8080
+
+security:
+  jwt:
+    # Base64-encoded secret (default for dev only). Replace in prod via env var SECURITY_JWT_SECRET
+    secret: ${SECURITY_JWT_SECRET:Y2hhbmdlX21lX3NlY3JldF9jaGFuZ2VfbWVfc2VjcmV0}
+    expirationMs: ${SECURITY_JWT_EXPIRATION_MS:86400000}
+
+feature:
+  emailLinkSignin: ${FEATURE_EMAIL_LINK_SIGNIN:false}
 
